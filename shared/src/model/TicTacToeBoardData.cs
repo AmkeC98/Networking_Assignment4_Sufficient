@@ -26,21 +26,36 @@ namespace shared
 			//this is just an example of a possible win condition, 
 			//but not the 'real' tictactoe win condition.
 			int total = 1;
-			foreach (int cell in board) total *= cell;
+			foreach (int cell in board)
+			{
+				total *= cell;
+			}
 
-			if (total == 1)		return 1;       //1*1*1*1*1*1*1*1*1
-			if (total == 512)	return 2;		//2*2*2*2*2*2*2*2*2
+			if (total == 1)
+			{
+				return 1;       //1*1*1*1*1*1*1*1*1
+			}
+			if (total == 512)
+			{
+				return 2;       //2*2*2*2*2*2*2*2*2
+			}
 			return 0;							//noone has one yet
 		}
 		
 		public override void Serialize(Packet pPacket)
 		{
-			for (int i = 0; i < board.Length; i++) pPacket.Write(board[i]);
+			for (int i = 0; i < board.Length; i++)
+			{
+				pPacket.Write(board[i]);
+			}
 		}
 
 		public override void Deserialize(Packet pPacket)
 		{
-			for (int i = 0; i < board.Length; i++) board[i] = pPacket.ReadInt();
+			for (int i = 0; i < board.Length; i++)
+			{
+				board[i] = pPacket.ReadInt();
+			}
 		}
 
 		public override string ToString()
@@ -49,4 +64,3 @@ namespace shared
 		}
 	}
 }
-

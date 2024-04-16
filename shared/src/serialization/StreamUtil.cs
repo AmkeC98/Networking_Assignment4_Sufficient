@@ -25,7 +25,10 @@ namespace shared
 		 */
 		public static bool Available(TcpClient pClient)
 		{
-			if (pClient.Available < HEADER_SIZE) return false;
+			if (pClient.Available < HEADER_SIZE)
+			{
+				return false;
+			}
 			byte[] sizeHeader = new byte[HEADER_SIZE];
 			pClient.Client.Receive(sizeHeader, HEADER_SIZE, SocketFlags.Peek);
 			int messageSize = BitConverter.ToInt32(sizeHeader, 0);
@@ -69,20 +72,22 @@ namespace shared
 			try
 			{
 				//keep reading bytes until we've got what we are looking for or something bad happens.
-				while (
-					totalBytesRead != pByteCount &&
-					(bytesRead = pStream.Read(bytes, totalBytesRead, pByteCount - totalBytesRead)) > 0
-				)
+				while (totalBytesRead != pByteCount && (bytesRead = pStream.Read(bytes, totalBytesRead, pByteCount - totalBytesRead)) > 0)
 				{
 					totalBytesRead += bytesRead;
 				}
 			}
-			catch { }
+			catch 
+			{ }
 
-			return (totalBytesRead == pByteCount) ? bytes : null;
+			if (totalBytesRead == pByteCount)
+			{
+				return bytes;
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
-
 }
-
-

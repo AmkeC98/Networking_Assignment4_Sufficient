@@ -14,8 +14,7 @@ namespace server
 		private List<TcpMessageChannel> _readyMembers = new List<TcpMessageChannel>();
 
 		public LobbyRoom(TCPGameServer pOwner) : base(pOwner)
-		{
-		}
+		{ }
 
 		protected override void addMember(TcpMessageChannel pMember)
 		{
@@ -49,7 +48,10 @@ namespace server
 
 		protected override void handleNetworkMessage(ASerializable pMessage, TcpMessageChannel pSender)
 		{
-			if (pMessage is ChangeReadyStatusRequest) handleReadyNotification(pMessage as ChangeReadyStatusRequest, pSender);
+			if (pMessage is ChangeReadyStatusRequest)
+			{
+				handleReadyNotification(pMessage as ChangeReadyStatusRequest, pSender);
+			}
 		}
 
 		private void handleReadyNotification(ChangeReadyStatusRequest pReadyNotification, TcpMessageChannel pSender)
@@ -57,7 +59,10 @@ namespace server
 			//if the given client was not marked as ready yet, mark the client as ready
 			if (pReadyNotification.ready)
 			{
-				if (!_readyMembers.Contains(pSender)) _readyMembers.Add(pSender);
+				if (!_readyMembers.Contains(pSender))
+				{
+					_readyMembers.Add(pSender);
+				}
 			}
 			else //if the client is no longer ready, unmark it as ready
 			{
@@ -86,6 +91,5 @@ namespace server
 			lobbyInfoMessage.readyCount = _readyMembers.Count;
 			sendToAll(lobbyInfoMessage);
 		}
-
 	}
 }

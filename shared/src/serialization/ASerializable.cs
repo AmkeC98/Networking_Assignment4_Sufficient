@@ -32,7 +32,10 @@ namespace shared
                 if (value is ICollection)
                 {
                     ICollection collection = value as ICollection;
-                    foreach (object item in collection) builder.Append(item.ToString());
+                    foreach (object item in collection)
+                    {
+                        builder.Append(item.ToString());
+                    }
                 }
                 else
                 {

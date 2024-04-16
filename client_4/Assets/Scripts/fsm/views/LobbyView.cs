@@ -25,11 +25,7 @@ public class LobbyView : View
     private void Start()
     {
         //setup chat input listener to trigger on enter
-        _inputFieldChat.onEndEdit.AddListener(
-            (value) => {
-                    if (Input.GetKeyDown(KeyCode.Return))  OnChatTextEntered(value);
-                }
-         );
+        _inputFieldChat.onEndEdit.AddListener((value) => { if (Input.GetKeyDown(KeyCode.Return))  OnChatTextEntered(value); });
 
         //setup 
         _toggleReady.onValueChanged.AddListener((value) => OnReadyToggleClicked(value));
@@ -59,7 +55,7 @@ public class LobbyView : View
         }
     }
 
-    public void SetLobbyHeading (string pHeading)
+    public void SetLobbyHeading(string pHeading)
     {
         _textHeading.text = pHeading;
     }
@@ -82,9 +78,8 @@ public class LobbyView : View
         _focusedRequested = true;
     }
 
-    public void SetReadyToggle (bool pValue)
+    public void SetReadyToggle(bool pValue)
     {
         _toggleReady.SetIsOnWithoutNotify(pValue);
     }
-
 }

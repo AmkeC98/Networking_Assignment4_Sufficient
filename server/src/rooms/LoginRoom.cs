@@ -15,8 +15,7 @@ namespace server
 		private const int MAX_MEMBERS = 50;
 
 		public LoginRoom(TCPGameServer pOwner) : base(pOwner)
-		{
-		}
+		{ }
 
 		protected override void addMember(TcpMessageChannel pMember)
 		{
@@ -46,7 +45,7 @@ namespace server
 		/**
 		 * Tell the client he is accepted and move the client to the lobby room.
 		 */
-		private void handlePlayerJoinRequest (PlayerJoinRequest pMessage, TcpMessageChannel pSender)
+		private void handlePlayerJoinRequest(PlayerJoinRequest pMessage, TcpMessageChannel pSender)
 		{
 			Log.LogInfo("Moving new client to accepted...", this);
 
@@ -57,6 +56,5 @@ namespace server
 			removeMember(pSender);
 			_server.GetLobbyRoom().AddMember(pSender);
 		}
-
 	}
 }

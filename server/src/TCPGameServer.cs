@@ -6,8 +6,8 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace server {
-
+namespace server 
+{
 	/**
 	 * Basic TCPGameServer that runs our game.
 	 * 
@@ -22,7 +22,6 @@ namespace server {
 	 */
 	class TCPGameServer
 	{
-
 		public static void Main(string[] args)
 		{
 			TCPGameServer tcpGameServer = new TCPGameServer();
@@ -30,7 +29,6 @@ namespace server {
 		}
 
 		//we have 3 different rooms at the moment (aka simple but limited)
-
 		private LoginRoom _loginRoom;	//this is the room every new user joins
 		private LobbyRoom _lobbyRoom;	//this is the room a user moves to after a successful 'login'
 		private GameRoom _gameRoom;		//this is the room a user moves to when a game is succesfully started
@@ -77,19 +75,27 @@ namespace server {
 
 				Thread.Sleep(100);
 			}
-
 		}
 		
 		//provide access to the different rooms on the server 
-		public LoginRoom GetLoginRoom() { return _loginRoom; }
-		public LobbyRoom GetLobbyRoom() { return _lobbyRoom; }
-		public GameRoom GetGameRoom() { return _gameRoom; }
+		public LoginRoom GetLoginRoom() 
+		{ 
+			return _loginRoom; 
+		}
+		public LobbyRoom GetLobbyRoom() 
+		{ 
+			return _lobbyRoom; 
+		}
+		public GameRoom GetGameRoom() 
+		{ 
+			return _gameRoom; 
+		}
 
 		/**
 		 * Returns a handle to the player info for the given client 
 		 * (will create new player info if there was no info for the given client yet)
 		 */
-		public PlayerInfo GetPlayerInfo (TcpMessageChannel pClient)
+		public PlayerInfo GetPlayerInfo(TcpMessageChannel pClient)
 		{
 			if (!_playerInfo.ContainsKey(pClient))
 			{
@@ -112,13 +118,9 @@ namespace server {
 		/**
 		 * Should be called by a room when a member is closed and removed.
 		 */
-		public void RemovePlayerInfo (TcpMessageChannel pClient)
+		public void RemovePlayerInfo(TcpMessageChannel pClient)
 		{
 			_playerInfo.Remove(pClient);
 		}
-
 	}
-
 }
-
-

@@ -5,6 +5,5 @@
      * Add any data you want to store for the player here and make it extend ASerializable.
      */
     public class PlayerInfo 
-    {
-    }
+    { }
 }

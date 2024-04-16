@@ -24,7 +24,7 @@ namespace server
 		/**
 		 * Create a room with an empty member list and reference to the server instance they are a part of.
 		 */
-		protected Room (TCPGameServer pServer)
+		protected Room(TCPGameServer pServer)
 		{
 			_server = pServer;
 			_members = new List<TcpMessageChannel>();
@@ -44,7 +44,7 @@ namespace server
 
 		protected int memberCount => _members.Count;
 		
-		protected int indexOfMember (TcpMessageChannel pMember)
+		protected int indexOfMember(TcpMessageChannel pMember)
 		{
 			return _members.IndexOf(pMember);
 		}
@@ -80,7 +80,10 @@ namespace server
 			for (int i = _members.Count - 1; i >= 0; i--)
 			{
 				//skip any members that have been 'killed' in the mean time
-				if (i >= _members.Count) continue;
+				if (i >= _members.Count)
+				{
+					continue;
+				}
 				//call the method on any still existing member
 				pMethod(_members[i]);
 			}
@@ -91,7 +94,10 @@ namespace server
 		 */
 		private void checkFaultyMember(TcpMessageChannel pMember)
 		{
-			if (!pMember.Connected) removeAndCloseMember(pMember);
+			if (!pMember.Connected)
+			{
+				removeAndCloseMember(pMember);
+			}
 		}
 
 		/**
@@ -137,7 +143,5 @@ namespace server
 				member.SendMessage(pMessage);
 			}
 		}
-
 	}
 }
-

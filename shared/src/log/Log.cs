@@ -39,21 +39,36 @@ namespace shared
         [Conditional("DEBUG")]
         public static void LogInfo(object pInfo, Type pType, ConsoleColor? pColor = null, [CallerMemberName]string pMemberName = "")
         {
-            if (!enabled) return;
+            if (!enabled)
+            {
+                return;
+            }
 
-            if (pColor != null) _colors.Push((ConsoleColor)pColor);
-            if (_colors.Count > 0) setConsoleColor(_colors.Peek());
+            if (pColor != null)
+            {
+                _colors.Push((ConsoleColor)pColor);
+            }
+            if (_colors.Count > 0)
+            {
+                setConsoleColor(_colors.Peek());
+            }
             Console.WriteLine($"{pType.Name}.{pMemberName}():{pInfo}");
-            if (pColor != null) _colors.Pop();
+            if (pColor != null)
+            {
+                _colors.Pop();
+            }
         }
 
         [Conditional("DEBUG")]
         /**
          * Ensures all the next line are using the given color, until that color is popped again.
          */
-        public static void PushForegroundColor (ConsoleColor pForegroundColor)
+        public static void PushForegroundColor(ConsoleColor pForegroundColor)
         {
-            if (enabled) Console.WriteLine("");
+            if (enabled)
+            {
+                Console.WriteLine("");
+            }
             _colors.Push(pForegroundColor);
         }
 

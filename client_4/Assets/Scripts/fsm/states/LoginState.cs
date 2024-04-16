@@ -28,7 +28,7 @@ public class LoginState : ApplicationStateWithView<LoginView>
         }
     }
 
-    public override void ExitState ()
+    public override void ExitState()
     {
         base.ExitState();
 
@@ -51,7 +51,8 @@ public class LoginState : ApplicationStateWithView<LoginView>
         if (fsm.channel.Connect(_serverIP, _serverPort))
         {
             tryToJoinLobby();
-        } else
+        } 
+        else
         {
             view.TextConnectResults = "Oops, couldn't connect:"+string.Join("\n", fsm.channel.GetErrors());
         }
@@ -68,18 +69,26 @@ public class LoginState : ApplicationStateWithView<LoginView>
     /// //////////////////////////////////////////////////////////////////
     ///                     NETWORK MESSAGE PROCESSING
     /// //////////////////////////////////////////////////////////////////
-
     private void Update()
     {
         //if we are connected, start processing messages
-        if (fsm.channel.Connected) receiveAndProcessNetworkMessages();
+        if (fsm.channel.Connected)
+        {
+            receiveAndProcessNetworkMessages();
+        }
     }
 
     
     protected override void handleNetworkMessage(ASerializable pMessage)
     {
-        if (pMessage is PlayerJoinResponse) handlePlayerJoinResponse (pMessage as PlayerJoinResponse);
-        else if (pMessage is RoomJoinedEvent) handleRoomJoinedEvent (pMessage as RoomJoinedEvent);
+        if (pMessage is PlayerJoinResponse)
+        {
+            handlePlayerJoinResponse(pMessage as PlayerJoinResponse);
+        }
+        else if (pMessage is RoomJoinedEvent)
+        {
+            handleRoomJoinedEvent(pMessage as RoomJoinedEvent);
+        }
     }
     
 
@@ -94,13 +103,11 @@ public class LoginState : ApplicationStateWithView<LoginView>
         */
     }
 
-    private void handleRoomJoinedEvent (RoomJoinedEvent pMessage)
+    private void handleRoomJoinedEvent(RoomJoinedEvent pMessage)
     {
         if (pMessage.room == RoomJoinedEvent.Room.LOBBY_ROOM)
         {
             fsm.ChangeState<LobbyState>();
         } 
     }
-
 }
-

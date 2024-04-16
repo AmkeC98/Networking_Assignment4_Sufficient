@@ -63,7 +63,6 @@ public class LobbyState : ApplicationStateWithView<LobbyView>
     /// //////////////////////////////////////////////////////////////////
     ///                     NETWORK MESSAGE PROCESSING
     /// //////////////////////////////////////////////////////////////////
-
     private void Update()
     {
         receiveAndProcessNetworkMessages();
@@ -71,9 +70,18 @@ public class LobbyState : ApplicationStateWithView<LobbyView>
     
     protected override void handleNetworkMessage(ASerializable pMessage)
     {
-        if (pMessage is ChatMessage) handleChatMessage(pMessage as ChatMessage);
-        else if (pMessage is RoomJoinedEvent) handleRoomJoinedEvent(pMessage as RoomJoinedEvent);
-        else if (pMessage is LobbyInfoUpdate) handleLobbyInfoUpdate(pMessage as LobbyInfoUpdate);
+        if (pMessage is ChatMessage)
+        {
+            handleChatMessage(pMessage as ChatMessage);
+        }
+        else if (pMessage is RoomJoinedEvent)
+        {
+            handleRoomJoinedEvent(pMessage as RoomJoinedEvent);
+        }
+        else if (pMessage is LobbyInfoUpdate)
+        {
+            handleLobbyInfoUpdate(pMessage as LobbyInfoUpdate);
+        }
     }
 
     private void handleChatMessage(ChatMessage pMessage)
@@ -96,5 +104,4 @@ public class LobbyState : ApplicationStateWithView<LobbyView>
         //update the lobby heading
         view.SetLobbyHeading($"Welcome to the Lobby ({pMessage.memberCount} people, {pMessage.readyCount} ready)");
     }
-
 }

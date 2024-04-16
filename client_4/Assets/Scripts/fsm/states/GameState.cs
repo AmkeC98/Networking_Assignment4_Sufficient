@@ -60,6 +60,5 @@ public class GameState : ApplicationStateWithView<GameView>
             player2MoveCount++;
             view.playerLabel2.text = $"Player 2 (Movecount: {player2MoveCount})";
         }
-
     }
 }

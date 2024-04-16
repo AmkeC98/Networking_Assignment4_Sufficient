@@ -13,4 +13,3 @@ public class GameView : View
     [SerializeField] private TMP_Text _player2Label = null;
     public TMP_Text playerLabel2 => _player2Label;
 }
-

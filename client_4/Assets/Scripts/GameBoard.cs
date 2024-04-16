@@ -27,14 +27,17 @@ public class GameBoard : MonoBehaviour, IPointerClickHandler
     {
         //GetComponentsInChildren<Image>() also includes images on the parent #$&#!@&*^!*&^@#
         //So we roll a custom loop to gather child cells.
-        foreach (Transform child in transform) _cells.Add(child.GetComponent<Image>());
+        foreach (Transform child in transform)
+        {
+            _cells.Add(child.GetComponent<Image>());
+        }
         Debug.Log(_cells.Count + " cells on the board found.");
     }
 
     /**
      * Updates the whole board view to reflect the given board data.
      */
-    public void SetBoardData (TicTacToeBoardData pBoardData)
+    public void SetBoardData(TicTacToeBoardData pBoardData)
     {
         //pass the whole board to our view
         int[] boardData = pBoardData.board;
@@ -56,7 +59,9 @@ public class GameBoard : MonoBehaviour, IPointerClickHandler
         int clickedCellIndex = _cells.IndexOf(eventData.pointerPressRaycast.gameObject.GetComponent<Image>());
         Debug.Log("Clicked cell index:" + clickedCellIndex);
         //and if we actually clicked on a cell, trigger our event
-        if (clickedCellIndex > -1) OnCellClicked(clickedCellIndex);
+        if (clickedCellIndex > -1)
+        {
+            OnCellClicked(clickedCellIndex);
+        }
     }
-
 }

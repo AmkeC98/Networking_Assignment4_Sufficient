@@ -20,12 +20,14 @@ namespace server
 		private TicTacToeBoard _board = new TicTacToeBoard();
 
 		public GameRoom(TCPGameServer pOwner) : base(pOwner)
-		{
-		}
+		{ }
 
-		public void StartGame (TcpMessageChannel pPlayer1, TcpMessageChannel pPlayer2)
+		public void StartGame(TcpMessageChannel pPlayer1, TcpMessageChannel pPlayer2)
 		{
-			if (IsGameInPlay) throw new Exception("Programmer error duuuude.");
+			if (IsGameInPlay)
+			{
+				throw new Exception("Programmer error duuuude.");
+			}
 
 			IsGameInPlay = true;
 			addMember(pPlayer1);
@@ -76,6 +78,5 @@ namespace server
 			makeMoveResult.boardData = _board.GetBoardData();
 			sendToAll(makeMoveResult);
 		}
-
 	}
 }

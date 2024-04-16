@@ -24,19 +24,27 @@ namespace shared
 		/**
 		 * Create a Packet from an existing byte array so we can read from it
 		 */
-		public Packet (byte[] pSource)
+		public Packet(byte[] pSource)
 		{
 			//BinaryReader wraps a Stream, in this case a MemoryStream, which in turn wraps an array of bytes
 			reader = new BinaryReader(new MemoryStream(pSource));
 		}
 
 		/// WRITE METHODS
-
-		public void Write (int pInt)							{		writer.Write(pInt);			}
-		public void Write (string pString)						{		writer.Write(pString);		}
-		public void Write (bool pBool)							{		writer.Write(pBool);		}
-		
-		public void Write (ASerializable pSerializable)			{
+		public void Write (int pInt)							
+		{		
+			writer.Write(pInt);			
+		}
+		public void Write (string pString)						
+		{		
+			writer.Write(pString);		
+		}
+		public void Write (bool pBool)							
+		{		
+			writer.Write(pBool);		
+		}
+		public void Write (ASerializable pSerializable)			
+		{
 			//write the full classname into the stream first
 			Write(pSerializable.GetType().FullName);
 			//then ask the serializable object to serialize itself
@@ -44,11 +52,18 @@ namespace shared
 		}
 
 		/// READ METHODS
-
-		public int ReadInt() { return reader.ReadInt32(); }
-		public string ReadString() { return reader.ReadString(); }
-		public bool ReadBool() { return reader.ReadBoolean(); }
-
+		public int ReadInt() 
+		{ 
+			return reader.ReadInt32(); 
+		}
+		public string ReadString() 
+		{ 
+			return reader.ReadString(); 
+		}
+		public bool ReadBool() 
+		{ 
+			return reader.ReadBoolean(); 
+		}
 		public ASerializable ReadObject() 
 		{
 			//get the classname from the stream first
@@ -84,11 +99,13 @@ namespace shared
 		 */
 		public bool HasMoreData()
 		{
-			if (reader == null) return false;
+			if (reader == null)
+			{
+				return false;
+			}
 
 			MemoryStream memoryStream = (MemoryStream)reader.BaseStream;
 			return memoryStream.Position < memoryStream.Length;
 		}
-
 	}
 }

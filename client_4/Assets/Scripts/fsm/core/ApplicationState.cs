@@ -69,5 +69,4 @@ public abstract class ApplicationState : MonoBehaviour
 	 * Override/implement in a subclass
 	 */
 	abstract protected void handleNetworkMessage(ASerializable pMessage);
-
 }

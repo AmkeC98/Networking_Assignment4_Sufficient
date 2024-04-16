@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-
 using UnityEngine;
 
 /// <summary>
@@ -55,7 +54,10 @@ public static class UnitySystemConsoleRedirector
 
 		public override Encoding Encoding
 		{
-			get { return Encoding.Default; }
+			get 
+			{ 
+				return Encoding.Default; 
+			}
 		}
 	}
 

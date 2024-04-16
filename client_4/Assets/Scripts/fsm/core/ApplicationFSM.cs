@@ -89,7 +89,10 @@ public class ApplicationFSM : MonoBehaviour
 	public void ChangeState(Type pType)
 	{
 		//if the request state is already active, ignore the request
-		if (_currentState != null && _currentState.GetType() == pType) return;
+		if (_currentState != null && _currentState.GetType() == pType)
+		{
+			return;
+		}
 
 		//exit current state if we have one
 		if (_currentState != null)
@@ -121,6 +124,4 @@ public class ApplicationFSM : MonoBehaviour
 		ChangeState(null);
 		channel.Close();
 	}
-
-
 }

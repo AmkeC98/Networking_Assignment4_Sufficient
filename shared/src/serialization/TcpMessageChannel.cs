@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace shared {
-
+namespace shared 
+{
     /**
      * TcpMessageChannel is sort of a facade around a TcpClient, Packets & the StreamUtil class.
      * It abstracts communication to a single bidirectional channel which you can use to pass 
@@ -47,7 +47,7 @@ namespace shared {
          * This is usually used on the client side, where you call Connect (..,..) on the TcpMessageChannel
          * after creating it. 
          */
-        public TcpMessageChannel ()
+        public TcpMessageChannel()
         {
             Log.LogInfo("TCPMessageChannel created (not connected).", this, ConsoleColor.Blue);
         }
@@ -57,7 +57,7 @@ namespace shared {
          * 
          * @return bool indicating connection status
          */
-        public bool Connect (string pServerIP, int pServerPort)
+        public bool Connect(string pServerIP, int pServerPort)
         {
             Log.LogInfo("Connecting...", this, ConsoleColor.Blue);
 
@@ -159,8 +159,9 @@ namespace shared {
          */
         public bool Connected 
         {
-            get {
-                    return !HasErrors() && _client != null && _client.Connected;
+            get 
+            {
+                return !HasErrors() && _client != null && _client.Connected;
             }
         }
 
@@ -181,20 +182,23 @@ namespace shared {
             Close();
         }
 
-        public IPEndPoint GetRemoteEndPoint() { return _remoteEndPoint; }
+        public IPEndPoint GetRemoteEndPoint() 
+        {
+            return _remoteEndPoint; 
+        }
 
-        public void Close ()
+        public void Close()
         {
             try
             {
                 _client.Close();
-            } catch {
-            }
+            } 
+            catch 
+            { }
             finally
             {
                 _client = null;
             }
         }
-
     }
 }
