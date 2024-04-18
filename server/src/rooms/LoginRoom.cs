@@ -47,14 +47,25 @@ namespace server
 		 */
 		private void handlePlayerJoinRequest(PlayerJoinRequest pMessage, TcpMessageChannel pSender)
 		{
-			Log.LogInfo("Moving new client to accepted...", this);
+			Log.LogInfo("Handling player join request, please hold...", this);
 
-			PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse();
-			playerJoinResponse.result = PlayerJoinResponse.RequestResult.ACCEPTED;
-			pSender.SendMessage(playerJoinResponse);
+			if (pMessage.name == "amke")
+			{
+				//Send response to client so Unity can go to next client-side state (login to lobby)
+                PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse();
+                playerJoinResponse.result = PlayerJoinResponse.RequestResult.ACCEPTED;
+                pSender.SendMessage(playerJoinResponse);
 
-			removeMember(pSender);
-			_server.GetLobbyRoom().AddMember(pSender);
+                //Server-side also go to next server-side state (login to lobby)
+                removeMember(pSender);
+                _server.GetLobbyRoom().AddMember(pSender);
+            }
+            else 
+			{
+                PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse();
+                playerJoinResponse.result = PlayerJoinResponse.RequestResult.DECLINED;
+                pSender.SendMessage(playerJoinResponse);
+            }
 		}
 	}
 }

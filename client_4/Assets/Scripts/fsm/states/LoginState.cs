@@ -96,18 +96,25 @@ public class LoginState : ApplicationStateWithView<LoginView>
     {
         //Dont do anything with this info at the moment, just leave it to the RoomJoinedEvent
         //We could handle duplicate name messages, get player info etc here
-        /*
-        if (pMessage.result == PlayerJoinResponse.State.ACCEPTED)
+        if (pMessage.result == PlayerJoinResponse.RequestResult.ACCEPTED)
         {
+            Debug.Log("Request Accepted, moving to Lobby Room\n");
+            fsm.ChangeState<LobbyState>();
         }
-        */
+        else if (pMessage.result == PlayerJoinResponse.RequestResult.DECLINED)
+        {
+            Debug.Log("Request Declined, staying in Login Room\n");
+            view.TextConnectResults = "This nickname is already in use, please choose another";
+        }
     }
 
     private void handleRoomJoinedEvent(RoomJoinedEvent pMessage)
     {
+        /*
         if (pMessage.room == RoomJoinedEvent.Room.LOBBY_ROOM)
         {
             fsm.ChangeState<LobbyState>();
         } 
+        */
     }
 }
