@@ -27,8 +27,8 @@ namespace server
 
 			//print some info in the lobby (can be made more applicable to the current member that joined)
 			ChatMessage simpleMessage = new ChatMessage();
-			simpleMessage.message = "Client 'John Doe' has joined the lobby!";
-			pMember.SendMessage(simpleMessage);
+			simpleMessage.message = _server.GetPlayerInfo(pMember).playerName + " has joined the lobby! Say hello to them.";
+			sendToAll(simpleMessage);
 
 			//send information to all clients that the lobby count has changed
 			sendLobbyUpdateCount();
