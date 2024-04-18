@@ -61,6 +61,7 @@ namespace server
                 Log.LogInfo("Before adding PlayerInfo" + _server.GetPlayerInfo((playerInfo) => playerInfo.playerName == pMessage.name).Count, this);
                 _server.GetPlayerInfo(pSender);
                 _server.GetPlayerInfo(pSender).playerName = pMessage.name;
+				_server.GetPlayerInfo(pSender).hasWonPreviousGame = false;
                 Log.LogInfo("After adding PlayerInfo" + _server.GetPlayerInfo((playerInfo) => playerInfo.playerName == pMessage.name).Count, this);
 
                 isNameInUse = false;

@@ -20,6 +20,13 @@ namespace server
 		{
 			base.addMember(pMember);
 
+			string winningMessage = "";
+			if (_server.GetPlayerInfo(pMember).hasWonPreviousGame == true)
+			{
+				winningMessage = " , our winner, ";
+
+            }
+
 			//tell the member it has joined the lobby
 			RoomJoinedEvent roomJoinedEvent = new RoomJoinedEvent();
 			roomJoinedEvent.room = RoomJoinedEvent.Room.LOBBY_ROOM;
@@ -27,7 +34,7 @@ namespace server
 
 			//print some info in the lobby (can be made more applicable to the current member that joined)
 			ChatMessage simpleMessage = new ChatMessage();
-			simpleMessage.message = _server.GetPlayerInfo(pMember).playerName + " has joined the lobby! Say hello to them.";
+			simpleMessage.message = _server.GetPlayerInfo(pMember).playerName + winningMessage + "has joined the lobby! Say hello to them.";
 			sendToAll(simpleMessage);
 
 			//send information to all clients that the lobby count has changed

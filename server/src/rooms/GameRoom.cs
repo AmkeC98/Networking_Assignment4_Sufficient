@@ -23,6 +23,8 @@ namespace server
 		private string player1Name;
 		private string player2Name;
 
+		private List<TcpMessageChannel> _currentPlayers = new List<TcpMessageChannel>();
+
         public GameRoom(TCPGameServer pOwner) : base(pOwner)
 		{ }
 
@@ -36,6 +38,8 @@ namespace server
 			player1Name = _server.GetPlayerInfo(pPlayer1).playerName;
 			player2Name = _server.GetPlayerInfo(pPlayer2).playerName;
 
+            _currentPlayers.Add(pPlayer1);
+            _currentPlayers.Add(pPlayer2);
 
             IsGameInPlay = true;
 			addMember(pPlayer1);
@@ -55,6 +59,7 @@ namespace server
 			SendPlayerNames sendPlayerNames = new SendPlayerNames();
 			sendPlayerNames.player1String = player1Name;
 			sendPlayerNames.player2String = player2Name;
+
 			sendToAll(sendPlayerNames);
         }
 
@@ -90,7 +95,38 @@ namespace server
 			MakeMoveResult makeMoveResult = new MakeMoveResult();
 			makeMoveResult.whoMadeTheMove = playerID;
 			makeMoveResult.boardData = _board.GetBoardData();
-			sendToAll(makeMoveResult);
+			makeMoveResult.isGameFinished = IsGameFinished();
+
+            sendToAll(makeMoveResult);
+
+			//If the game was finished, handle this as well
+			if (IsGameFinished())
+			{
+				//Mark winning player as winner in PlayerInfo
+				_server.GetPlayerInfo(pSender).hasWonPreviousGame = true; 
+
+				//Remove each member from Game Room and send back to Lobby Room
+				for (int i = 0; i < _currentPlayers.Count; i++)
+				{
+					_server.GetGameRoom().removeMember(_currentPlayers[i]);
+					_server.GetLobbyRoom().AddMember(_currentPlayers[i]);
+				}
+
+				//Clear the list
+				_currentPlayers.Clear();
+			}
+		}
+
+		private bool IsGameFinished()
+		{
+			if (_board.GetBoardData().WhoHasWon() == 1 || _board.GetBoardData().WhoHasWon() == 2)
+			{
+				return true;
+			}
+            else
+			{
+				return false;
+			}
 		}
     }
 }

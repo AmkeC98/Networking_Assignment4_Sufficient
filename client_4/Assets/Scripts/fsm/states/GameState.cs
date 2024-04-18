@@ -66,6 +66,11 @@ public class GameState : ApplicationStateWithView<GameView>
             player2MoveCount++;
             view.playerLabel2.text = $"P2 {player2Name} (Movecount: {player2MoveCount})";
         }
+
+        if (pMakeMoveResult.isGameFinished)
+        {
+            fsm.ChangeState<LobbyState>();
+        }
     }
 
     private void handleSendPlayerNames(SendPlayerNames pSendPlayerNames)

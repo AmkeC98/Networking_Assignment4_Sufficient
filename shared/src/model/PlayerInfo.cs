@@ -7,15 +7,18 @@
     public class PlayerInfo : ASerializable
     {
         public string playerName;
+        public bool hasWonPreviousGame;
 
         public override void Serialize(Packet pPacket)
         {
             pPacket.Write(playerName);
+            pPacket.Write(hasWonPreviousGame);
         }
 
         public override void Deserialize(Packet pPacket)
         {
             playerName = pPacket.ReadString();
+            hasWonPreviousGame = pPacket.ReadBool();
         }
     }
 }
