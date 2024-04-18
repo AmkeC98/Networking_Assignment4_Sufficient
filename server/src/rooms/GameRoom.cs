@@ -1,5 +1,6 @@
 ﻿using shared;
 using System;
+using System.Collections.Generic;
 
 namespace server
 {
@@ -19,7 +20,10 @@ namespace server
 		//wraps the board to play on...
 		private TicTacToeBoard _board = new TicTacToeBoard();
 
-		public GameRoom(TCPGameServer pOwner) : base(pOwner)
+		private string player1Name;
+		private string player2Name;
+
+        public GameRoom(TCPGameServer pOwner) : base(pOwner)
 		{ }
 
 		public void StartGame(TcpMessageChannel pPlayer1, TcpMessageChannel pPlayer2)
@@ -29,7 +33,11 @@ namespace server
 				throw new Exception("Programmer error duuuude.");
 			}
 
-			IsGameInPlay = true;
+			player1Name = _server.GetPlayerInfo(pPlayer1).playerName;
+			player2Name = _server.GetPlayerInfo(pPlayer2).playerName;
+
+
+            IsGameInPlay = true;
 			addMember(pPlayer1);
 			addMember(pPlayer2);
 		}
@@ -42,7 +50,13 @@ namespace server
 			RoomJoinedEvent roomJoinedEvent = new RoomJoinedEvent();
 			roomJoinedEvent.room = RoomJoinedEvent.Room.GAME_ROOM;
 			pMember.SendMessage(roomJoinedEvent);
-		}
+
+			//Send names of players to everyone
+			SendPlayerNames sendPlayerNames = new SendPlayerNames();
+			sendPlayerNames.player1String = player1Name;
+			sendPlayerNames.player2String = player2Name;
+			sendToAll(sendPlayerNames);
+        }
 
 		public override void Update()
 		{
@@ -55,7 +69,7 @@ namespace server
 			{
 				Log.LogInfo("People left the game...", this);
 			}
-		}
+        }
 
 		protected override void handleNetworkMessage(ASerializable pMessage, TcpMessageChannel pSender)
 		{
@@ -78,5 +92,5 @@ namespace server
 			makeMoveResult.boardData = _board.GetBoardData();
 			sendToAll(makeMoveResult);
 		}
-	}
+    }
 }

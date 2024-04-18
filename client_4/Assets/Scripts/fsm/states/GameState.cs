@@ -10,6 +10,8 @@ public class GameState : ApplicationStateWithView<GameView>
     //normally it would be better to maintain this sort of info on the server if it is actually important information
     private int player1MoveCount = 0;
     private int player2MoveCount = 0;
+    private string player1Name;
+    private string player2Name;
 
     public override void EnterState()
     {
@@ -43,6 +45,10 @@ public class GameState : ApplicationStateWithView<GameView>
         {
             handleMakeMoveResult(pMessage as MakeMoveResult);
         }
+        else if (pMessage is SendPlayerNames)
+        {
+            handleSendPlayerNames(pMessage as SendPlayerNames);
+        }
     }
 
     private void handleMakeMoveResult(MakeMoveResult pMakeMoveResult)
@@ -53,12 +59,21 @@ public class GameState : ApplicationStateWithView<GameView>
         if (pMakeMoveResult.whoMadeTheMove == 1)
         {
             player1MoveCount++;
-            view.playerLabel1.text = $"Player 1 (Movecount: {player1MoveCount})";
+            view.playerLabel1.text = $"P1 {player1Name} (Movecount: {player1MoveCount})";
         }
         if (pMakeMoveResult.whoMadeTheMove == 2)
         {
             player2MoveCount++;
-            view.playerLabel2.text = $"Player 2 (Movecount: {player2MoveCount})";
+            view.playerLabel2.text = $"P2 {player2Name} (Movecount: {player2MoveCount})";
         }
+    }
+
+    private void handleSendPlayerNames(SendPlayerNames pSendPlayerNames)
+    {
+        player1Name = pSendPlayerNames.player1String;
+        player2Name = pSendPlayerNames.player2String;
+
+        view.playerLabel1.text = $"P1 {player1Name} (Movecount: {player1MoveCount})";
+        view.playerLabel2.text = $"P2 {player2Name} (Movecount: {player2MoveCount})";
     }
 }
