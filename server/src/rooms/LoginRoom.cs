@@ -49,8 +49,26 @@ namespace server
 		{
 			Log.LogInfo("Handling player join request, please hold...", this);
 
-			if (pMessage.name == "amke")
+            //Check if sent name already exists
+            bool isNameInUse;
+
+            if (_server.GetPlayerInfo((playerInfo) => playerInfo.playerName == pMessage.name).Count > 0)
 			{
+				isNameInUse = true;
+            }
+            else
+            {
+                Log.LogInfo("Before adding PlayerInfo" + _server.GetPlayerInfo((playerInfo) => playerInfo.playerName == pMessage.name).Count, this);
+                _server.GetPlayerInfo(pSender);
+                _server.GetPlayerInfo(pSender).playerName = pMessage.name;
+                Log.LogInfo("After adding PlayerInfo" + _server.GetPlayerInfo((playerInfo) => playerInfo.playerName == pMessage.name).Count, this);
+
+                isNameInUse = false;
+            }
+
+            //If name doesn't exist yet, move to next state
+            if (isNameInUse == false)
+            {
 				//Send response to client so Unity can go to next client-side state (login to lobby)
                 PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse();
                 playerJoinResponse.result = PlayerJoinResponse.RequestResult.ACCEPTED;
@@ -60,8 +78,9 @@ namespace server
                 removeMember(pSender);
                 _server.GetLobbyRoom().AddMember(pSender);
             }
-            else 
-			{
+            //Else if name already exists, try again
+            else
+            {
                 PlayerJoinResponse playerJoinResponse = new PlayerJoinResponse();
                 playerJoinResponse.result = PlayerJoinResponse.RequestResult.DECLINED;
                 pSender.SendMessage(playerJoinResponse);
