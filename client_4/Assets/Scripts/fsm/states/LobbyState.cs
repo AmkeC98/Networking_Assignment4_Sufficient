@@ -42,7 +42,11 @@ public class LobbyState : ApplicationStateWithView<LobbyView>
     {
         view.ClearInput();
 
-        addOutput("(noone else will see this because I broke the chat on purpose):"+pText);        
+        ChatMessage enteredMessage = new ChatMessage();
+        enteredMessage.message = pText;
+        fsm.channel.SendMessage(enteredMessage);
+
+        //addOutput("(noone else will see this because I broke the chat on purpose):"+pText);        
     }
 
     /**

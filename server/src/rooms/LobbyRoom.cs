@@ -52,6 +52,10 @@ namespace server
 			{
 				handleReadyNotification(pMessage as ChangeReadyStatusRequest, pSender);
 			}
+			else if (pMessage is ChatMessage)
+			{
+				handleChatMessages(pMessage as ChatMessage, pSender);
+            }
 		}
 
 		private void handleReadyNotification(ChangeReadyStatusRequest pReadyNotification, TcpMessageChannel pSender)
@@ -83,6 +87,19 @@ namespace server
 			//to all clients still in the lobby
 			sendLobbyUpdateCount();
 		}
+
+		private void handleChatMessages(ChatMessage pMessage, TcpMessageChannel pSender)
+		{
+            Log.LogInfo("Handling incoming chat message, received: ", this);
+            Log.LogInfo(pMessage.message, this);
+
+			//Make sure the correct sender's name is next to the message
+			string userString = _server.GetPlayerInfo(pSender).playerName + " typed: \n";
+			pMessage.message = userString + pMessage.message;
+
+            sendToAll(pMessage);
+
+        }
 
 		private void sendLobbyUpdateCount()
 		{
