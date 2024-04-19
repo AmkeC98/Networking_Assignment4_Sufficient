@@ -88,7 +88,11 @@ namespace server
 				removeMember(player1);
 				removeMember(player2);
 				_server.GetGameRoom().StartGame(player1, player2);
-			}
+
+				//Reset the win-state of the players when entering a game
+				_server.GetPlayerInfo(player1).hasWonPreviousGame = false;
+				_server.GetPlayerInfo(player2).hasWonPreviousGame = false;
+            }
 
 			//(un)ready-ing / starting a game changes the lobby/ready count so send out an update
 			//to all clients still in the lobby
