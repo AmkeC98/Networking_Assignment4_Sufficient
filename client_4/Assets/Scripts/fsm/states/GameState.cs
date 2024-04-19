@@ -18,6 +18,12 @@ public class GameState : ApplicationStateWithView<GameView>
         base.EnterState();
         
         view.gameBoard.OnCellClicked += _onCellClicked;
+
+        //Reset moveCounts
+        player1MoveCount = 0;
+        player2MoveCount = 0;
+        //Reset boarddata
+
     }
 
     private void _onCellClicked(int pCellIndex)

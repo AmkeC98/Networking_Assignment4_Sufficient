@@ -114,7 +114,15 @@ namespace server
 
 				//Clear the list
 				_currentPlayers.Clear();
-			}
+
+				//Reset the room to be available
+				this.IsGameInPlay = false;
+				//Reset the gameboard data
+				this._board.GetBoardData().board = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+                Log.LogInfo("Game is over, gameroom available: " + this.IsGameInPlay.ToString(), this);
+                Log.LogInfo("New Board Data: " + this._board.GetBoardData().ToString(), this);
+            }
 		}
 
 		private bool IsGameFinished()
