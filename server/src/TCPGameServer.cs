@@ -36,12 +36,16 @@ namespace server
 		//stores additional info for a player
 		private Dictionary<TcpMessageChannel, PlayerInfo> _playerInfo = new Dictionary<TcpMessageChannel, PlayerInfo>();
 
+		private List<GameRoom> _gameRooms = new List<GameRoom>();
+
 		private TCPGameServer()
 		{
 			//we have only one instance of each room, this is especially limiting for the game room (since this means you can only have one game at a time).
 			_loginRoom = new LoginRoom(this);
 			_lobbyRoom = new LobbyRoom(this);
 			_gameRoom = new GameRoom(this);
+
+			_gameRooms.Add(_gameRoom);
 		}
 
 		private void run()
@@ -71,7 +75,12 @@ namespace server
 				//now update every single room
 				_loginRoom.Update();
 				_lobbyRoom.Update();
-				_gameRoom.Update();
+				//_gameRoom.Update();
+
+				foreach (GameRoom room in _gameRooms)
+				{
+					room.Update();
+				}
 
 				Thread.Sleep(100);
 			}
@@ -89,6 +98,10 @@ namespace server
 		public GameRoom GetGameRoom() 
 		{ 
 			return _gameRoom; 
+		}
+		public List<GameRoom> GetGameRooms()
+		{
+			return _gameRooms;
 		}
 
 		/**

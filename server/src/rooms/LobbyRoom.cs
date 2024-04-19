@@ -81,22 +81,47 @@ namespace server
 			}
 
 			//do we have enough people for a game and is there no game running yet?
-			if (_readyMembers.Count >= 2 && !_server.GetGameRoom().IsGameInPlay)
+			if (_readyMembers.Count >= 2 /*&& !_server.GetGameRoom().IsGameInPlay*/)
 			{
-				TcpMessageChannel player1 = _readyMembers[0];
-				TcpMessageChannel player2 = _readyMembers[1];
-				removeMember(player1);
-				removeMember(player2);
-				_server.GetGameRoom().StartGame(player1, player2);
+                Log.LogInfo("Member Count is 2 or more, starting to check if room is available", this);
 
-				//Reset the win-state of the players when entering a game
-				_server.GetPlayerInfo(player1).hasWonPreviousGame = false;
-				_server.GetPlayerInfo(player2).hasWonPreviousGame = false;
+                bool isGameroomAvailable = false;
+				GameRoom availableGameroom = new GameRoom(_server);
+
+                //Check for next available game room
+                foreach (GameRoom gameRoom in _server.GetGameRooms())
+				{
+					if (gameRoom.IsGameInPlay == false)
+					{
+                        Log.LogInfo("Found an available existing GameRoom, choosing this one", this);
+
+                        isGameroomAvailable = true;
+						availableGameroom = gameRoom;
+                        break;
+                    }
+                }
+
+				if (isGameroomAvailable == false)
+				{
+                    Log.LogInfo("Didn't find an available existing GameRoom, creating a new one and adding to the list", this);
+
+                    _server.GetGameRooms().Add(availableGameroom);
+				}
+
+                TcpMessageChannel player1 = _readyMembers[0];
+                TcpMessageChannel player2 = _readyMembers[1];
+                removeMember(player1);
+                removeMember(player2);
+                availableGameroom.StartGame(player1, player2);
+
+                //Reset the win-state of the players when entering a game
+                _server.GetPlayerInfo(player1).hasWonPreviousGame = false;
+                _server.GetPlayerInfo(player2).hasWonPreviousGame = false;
             }
 
-			//(un)ready-ing / starting a game changes the lobby/ready count so send out an update
-			//to all clients still in the lobby
-			sendLobbyUpdateCount();
+            //(un)ready-ing / starting a game changes the lobby/ready count so send out an update
+            //to all clients still in the lobby
+            sendLobbyUpdateCount();
 		}
 
 		private void handleChatMessages(ChatMessage pMessage, TcpMessageChannel pSender)
