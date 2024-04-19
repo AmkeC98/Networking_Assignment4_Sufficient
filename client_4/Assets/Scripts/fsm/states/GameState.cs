@@ -22,8 +22,6 @@ public class GameState : ApplicationStateWithView<GameView>
         //Reset moveCounts
         player1MoveCount = 0;
         player2MoveCount = 0;
-        //Reset boarddata
-
     }
 
     private void _onCellClicked(int pCellIndex)
