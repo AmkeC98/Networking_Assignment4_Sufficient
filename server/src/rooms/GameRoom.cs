@@ -1,6 +1,5 @@
 ﻿using shared;
 using System;
-using System.Collections.Generic;
 
 namespace server
 {
@@ -20,12 +19,16 @@ namespace server
 		//wraps the board to play on...
 		private TicTacToeBoard _board = new TicTacToeBoard();
 
+<<<<<<< HEAD
 		private string player1Name;
 		private string player2Name;
 
 		private List<TcpMessageChannel> _currentPlayers = new List<TcpMessageChannel>();
 
         public GameRoom(TCPGameServer pOwner) : base(pOwner)
+=======
+		public GameRoom(TCPGameServer pOwner) : base(pOwner)
+>>>>>>> parent of f742ad3 (Game shows correct player names)
 		{ }
 
 		public void StartGame(TcpMessageChannel pPlayer1, TcpMessageChannel pPlayer2)
@@ -35,6 +38,7 @@ namespace server
 				throw new Exception("Programmer error duuuude.");
 			}
 
+<<<<<<< HEAD
 			player1Name = _server.GetPlayerInfo(pPlayer1).playerName;
 			player2Name = _server.GetPlayerInfo(pPlayer2).playerName;
 
@@ -42,6 +46,9 @@ namespace server
             _currentPlayers.Add(pPlayer2);
 
             IsGameInPlay = true;
+=======
+			IsGameInPlay = true;
+>>>>>>> parent of f742ad3 (Game shows correct player names)
 			addMember(pPlayer1);
 			addMember(pPlayer2);
 		}
@@ -54,6 +61,7 @@ namespace server
 			RoomJoinedEvent roomJoinedEvent = new RoomJoinedEvent();
 			roomJoinedEvent.room = RoomJoinedEvent.Room.GAME_ROOM;
 			pMember.SendMessage(roomJoinedEvent);
+<<<<<<< HEAD
 
 			//Send names of players to everyone
 			SendPlayerNames sendPlayerNames = new SendPlayerNames();
@@ -62,6 +70,9 @@ namespace server
 
 			sendToAll(sendPlayerNames);
         }
+=======
+		}
+>>>>>>> parent of f742ad3 (Game shows correct player names)
 
 		public override void Update()
 		{
@@ -74,7 +85,7 @@ namespace server
 			{
 				Log.LogInfo("People left the game...", this);
 			}
-        }
+		}
 
 		protected override void handleNetworkMessage(ASerializable pMessage, TcpMessageChannel pSender)
 		{
@@ -136,5 +147,5 @@ namespace server
 				return false;
 			}
 		}
-    }
+	}
 }
